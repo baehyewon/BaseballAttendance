@@ -1,11 +1,11 @@
 # BaseballAttention
 선수별 출석 점수 관리
 
-D1
-D2
-D3
-D4
-D5
+D1 O
+D2 O
+D3 O
+D4 O
+D5 O
 
 요구사항 정리 (D1 ~ D5)
 1. 함수 레벨 리팩토링
@@ -20,3 +20,5 @@ D4 - 리팩토링에 디자인 패턴을 적용한다.
 
 4. 코드 커버리지 100%
 D5 - 리팩토링이 끝난 코드에, 코드 커버리지가 100% 되어야 한다.
+
+<img width="1129" height="826" alt="image" src="https://github.com/user-attachments/assets/26ada67d-36cd-4320-9009-7e07fc681149" />
