@@ -1,7 +1,7 @@
 # BaseballAttention
 선수별 출석 점수 관리
 
-D1
+D1 O
 D2
 D3
 D4

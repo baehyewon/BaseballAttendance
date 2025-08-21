@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>test_attendance.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+#include "gmock/gmock.h"
+#include "attendance.h"
+
+using namespace testing;
+
+class AttendanceFixture : public ::testing::Test {
+protected:
+    Attendance stAttendance;
+
+    std::vector&lt;uint32_t&gt; expectDatas{ 0,0,0,0,0,0,0,0,0,0 };
+    static const uint32_t INVALID_SIZE = 0;
+    static const uint32_t ERASE_SIZE = 10;
+    const std::string EXPECT_DATA = "0x00000000";
+};
+#if 1
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, RegisterAndGetIDTest) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "monday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id1 = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "wednesday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id2 = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Daisy";
+    attndanceData.day = "wednesday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id3 = stAttendance.GetMemberID("Daisy");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(id1, id2);
+    EXPECT_NE(id1, id3);
+}</span>
+#endif
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, ValidDayTest) {
+    EXPECT_EQ(stAttendance.GetDayIndex("monday"), MONDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("tuesday"), TUESDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("wednesday"), WENDSDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("thursday"), THURSDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("friday"), FIRDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("saturday"), SATURDAY_INDEX);
+    EXPECT_EQ(stAttendance.GetDayIndex("sunday"), SUNDAY_INDEX);
+    EXPECT_THROW(stAttendance.GetDayIndex("holiday"), std::invalid_argument);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Moday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "monday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 1);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Tuesday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "tuesday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 1);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Thursday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "thursday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 1);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Friday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "thursday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 1);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Wednesday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "wednesday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 3);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 1);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Saturday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "saturday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 2);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 1);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, AddPoint_Sunday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    attndanceData.name = "Umar";
+    attndanceData.day = "sunday";
+    stAttendance.UpdateAttendance(attndanceData);
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 2);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 1);
+}</span>
+
+//////////////////////////////////////////////////////////
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_Wednesday) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for(int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "wednesday";
+        stAttendance.UpdateAttendance(attndanceData);
+	}
+    stAttendance.ManageAttendance();
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 40);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 10);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_Weekend) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "sunday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }
+    stAttendance.ManageAttendance();</span>
+
+<span style = "background-color:#dfd">    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 30);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 0);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 10);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_MixWednesdayAndWeekend) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "sunday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "wednesday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }</span>
+
+<span style = "background-color:#dfd">    stAttendance.ManageAttendance();
+    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetPointsOfMember(id), 70);
+    EXPECT_EQ(stAttendance.GetWendsdayOfMember(id), 10);
+    EXPECT_EQ(stAttendance.GetWeekendOfMember(id), 10);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_NormalGrade) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "monday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }
+    stAttendance.ManageAttendance();</span>
+
+<span style = "background-color:#dfd">    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetGradeOfMember(id), 0);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_SilverGrade) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 10; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "sunday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }
+    stAttendance.ManageAttendance();</span>
+
+<span style = "background-color:#dfd">    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetGradeOfMember(id), 2);
+}</span>
+
+<span style = "background-color:#dfd">TEST_F(AttendanceFixture, SpecialPoint_GoldGrade) {
+    AttendanceDatas attndanceData;</span>
+
+<span style = "background-color:#dfd">    for (int day = 1; day &lt;= 20; day++) {
+        attndanceData.name = "Umar";
+        attndanceData.day = "sunday";
+        stAttendance.UpdateAttendance(attndanceData);
+    }
+    stAttendance.ManageAttendance();</span>
+
+<span style = "background-color:#dfd">    int id = stAttendance.GetMemberID("Umar");</span>
+
+<span style = "background-color:#dfd">    EXPECT_EQ(stAttendance.GetGradeOfMember(id),1);
+}</span></pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

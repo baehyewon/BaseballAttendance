@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>attendance.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// attendance.cpp
+#include &lt;iostream&gt;
+#include "attendance.h"
+using namespace std;
+
+<span style = "background-color:#dfd">void Attendance::ManageAttendance() {
+	AddSpecialPoints();
+	UpdateGrades();</span>
+
+<span style = "background-color:#dfd">	PrintMembersInformation();
+	PrintKickOutMembers();
+}</span>
+
+<span style = "background-color:#dfd">void Attendance::UpdateAttendance(const AttendanceDatas&amp; attndanceData) {
+	string name = attndanceData.name;
+	string dayOfWeek = attndanceData.day;</span>
+
+<span style = "background-color:#dfd">	int memberId = RegisterAndGetID(name);
+	int	day = GetDayIndex(dayOfWeek);</span>
+
+<span style = "background-color:#dfd">	attendance[memberId][day] += 1;</span>
+
+<span style = "background-color:#dfd">	AddPoints(dayOfWeek, memberId);
+}</span>
+int Attendance::RegisterAndGetID(const std::string&amp; name)
+<span style = "background-color:#dfd">{
+	if (memberID.count(name) == 0) {
+		memberID.insert({ name, ++numOfMembers });</span>
+
+<span style = "background-color:#dfd">		names[numOfMembers] = name;</span>
+	}
+<span style = "background-color:#dfd">	return GetMemberID(name);
+}</span>
+int Attendance::GetDayIndex(const std::string&amp; dayOfWeek)
+<span style = "background-color:#dfd">{
+	if (dayOfWeek == "monday") return MONDAY_INDEX;
+	else if (dayOfWeek == "tuesday") return TUESDAY_INDEX;
+	else if (dayOfWeek == "wednesday") return WENDSDAY_INDEX;
+	else if (dayOfWeek == "thursday") return THURSDAY_INDEX;
+	else if (dayOfWeek == "friday") return FIRDAY_INDEX;
+	else if (dayOfWeek == "saturday") return SATURDAY_INDEX;
+	else if (dayOfWeek == "sunday") return SUNDAY_INDEX;</span>
+
+<span style = "background-color:#dfd">	throw std::invalid_argument("Invalid day of week: " + dayOfWeek);
+}</span>
+void Attendance::AddPoints(const std::string&amp; dayOfWeek, int memberId)
+<span style = "background-color:#dfd">{
+	points[memberId] += pointStrategy-&gt;GetPoints(dayOfWeek);</span>
+
+<span style = "background-color:#dfd">	if (dayOfWeek == "wednesday") wednesday[memberId]++;
+	else if (dayOfWeek == "saturday") weekend[memberId]++;
+	else if (dayOfWeek == "sunday") weekend[memberId]++;
+}</span>
+
+void Attendance::AddSpecialPoints()
+<span style = "background-color:#dfd">{
+	for (int memberIndex = 1; memberIndex &lt;= numOfMembers; memberIndex++) {
+		if (attendance[memberIndex][WENDSDAY_INDEX] &gt;= BONUS_THRESHOLD) {
+			points[memberIndex] += SPECIAL_BONUS_POINTS;</span>
+		}
+
+<span style = "background-color:#dfd">		if (attendance[memberIndex][SATURDAY_INDEX] + attendance[memberIndex][SUNDAY_INDEX] &gt;= BONUS_THRESHOLD) {
+			points[memberIndex] += SPECIAL_BONUS_POINTS;</span>
+		}
+<span style = "background-color:#dfd">	}
+}</span>
+
+void Attendance::UpdateGrades()
+<span style = "background-color:#dfd">{
+	for (int memberIndex = 1; memberIndex &lt;= numOfMembers; memberIndex++) {
+		grade[memberIndex] = gradeStrategy-&gt;GetGrade(points[memberIndex]);
+	}
+}</span>
+
+void Attendance::PrintMembersInformation()
+<span style = "background-color:#dfd">{
+	string gradeStr;
+	for (int memberIndex = 1; memberIndex &lt;= numOfMembers; memberIndex++) {
+		gradeStr = gradeStrategy-&gt;GetGradeString(grade[memberIndex]);</span>
+
+<span style = "background-color:#dfd">		cout &lt;&lt; "NAME : " &lt;&lt; names[memberIndex] &lt;&lt; ", ";
+		cout &lt;&lt; "POINT : " &lt;&lt; points[memberIndex] &lt;&lt; ", ";
+		cout &lt;&lt; "GRADE : " &lt;&lt; gradeStr &lt;&lt; "\n";
+	}
+}</span>
+
+void Attendance::PrintKickOutMembers()
+<span style = "background-color:#dfd">{
+	std::cout &lt;&lt; "\n";
+	std::cout &lt;&lt; "Removed player\n";
+	std::cout &lt;&lt; "==============\n";
+	for (int memberIndex = 1; memberIndex &lt;= numOfMembers; memberIndex++) {</span>
+
+<span style = "background-color:#dfd">		if (kickOutStrategy-&gt;IsKickoutMember(grade[memberIndex], wednesday[memberIndex], weekend[memberIndex] == 0)) {
+			std::cout &lt;&lt; names[memberIndex] &lt;&lt; "\n";</span>
+		}
+<span style = "background-color:#dfd">	}
+}</span>
+
+int Attendance::GetMemberID(const std::string&amp; name)
+<span style = "background-color:#dfd">{
+	return memberID[name];
+}</span>
+
+int Attendance::GetPointsOfMember(int memberId)
+<span style = "background-color:#dfd">{
+	return points[memberId];
+}</span>
+int Attendance::GetWendsdayOfMember(int memberId)
+<span style = "background-color:#dfd">{
+	return wednesday[memberId];
+}</span>
+int Attendance::GetWeekendOfMember(int memberId)
+<span style = "background-color:#dfd">{
+	return weekend[memberId];
+}</span>
+int Attendance::GetGradeOfMember(int memberId)
+<span style = "background-color:#dfd">{
+	return grade[memberId];
+}</span></pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>
