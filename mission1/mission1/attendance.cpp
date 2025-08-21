@@ -1,19 +1,9 @@
 // attendance.cpp
 #include <iostream>
-#include <fstream>
 #include "attendance.h"
 using namespace std;
 
 void Attendance::ManageAttendance() {
-	ifstream fin{ "attendance_weekday_500.txt" };
-	AttendanceDatas attndanceData;
-
-	for (int day = 0; day < MAX_ATTEN_DAYS; day++) {
-		fin >> attndanceData.name >> attndanceData.day;
-
-		UpdateAttendance(attndanceData);
-	}
-
 	AddSpecialPoints();
 	UpdateGrades();
 
@@ -27,14 +17,7 @@ void Attendance::UpdateAttendance(const AttendanceDatas& attndanceData) {
 
 	int memberId = RegisterAndGetID(name);
 
-	int day = 0;
-	try {
-		day = GetDayIndex(dayOfWeek);
-	}
-	catch (const std::invalid_argument& e) {
-		cout << e.what() << endl;
-		return;
-	}
+	int	day = GetDayIndex(dayOfWeek);
 
 	attendance[memberId][day] += 1;
 
@@ -47,7 +30,7 @@ int Attendance::RegisterAndGetID(const std::string& name)
 
 		names[numOfMembers] = name;
 	}
-	return memberID[name];
+	return GetMemberID(name);
 }
 int Attendance::GetDayIndex(const std::string& dayOfWeek)
 {
@@ -151,4 +134,9 @@ bool Attendance::IsKickOutMember(int memberIndex)
 		return true;
 	}
 	return false;
+}
+
+int Attendance::GetMemberID(const std::string& name)
+{
+	return memberID[name];
 }
